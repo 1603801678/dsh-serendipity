@@ -1,0 +1,23 @@
+# 临时 overlay：把本插件挂到 headless profile 上跑真实 agent 会话测试。
+# 不写进任何 profile 的 package.json，只作为 `--patch` 的一次性层使用。
+#
+# 用**file:// URL**而不是包名：隔离测试用的临时 DSH_HOME 里没有装这个包，
+# 按包名导入会 ERR_MODULE_NOT_FOUND；而 Windows 的绝对路径（`E:/...`）会被
+# ESM loader 当成协议 `e:` 拒绝（ERR_UNSUPPORTED_ESM_URL_SCHEME）。
+# 只有 file:// URL 在两种情况下都能加载。
+#
+# 用法（把状态目录隔离到工作区内的临时目录，不动真实数据）：
+#
+#   $iso = "E:\deepseekagent\dsh-creativity\.tmp-test-home"
+#   cmd /c "set USERPROFILE=$iso&& set HOME=$iso&& set DSH_HOME=$iso\.dsh&& node <dsh>\lib\bin.js --profile headless --patch <此文件> ""<task>"""
+#
+# 注意三点：
+#   1. `DSH_HOME` 必须显式设成隔离目录下的 `.dsh`（`%USERPROFILE%` 在 cmd 里是
+#      解析期展开，写 `%USERPROFILE%\.dsh` 会拿到**真实**主目录）。
+#   2. 凭据从真实 `.dsh/.credentials.yaml` 复制一份过去，用完删掉；
+#      `.tmp-test-home/` 已在 `.gitignore` 里（绝不能提交）。
+#   3. 插件状态根是 `homedir()/.dsh/dsh-serendipity`，`homedir()` 跟随 `USERPROFILE`/`HOME`，
+#      所以隔离是有效的 —— 但 `stateRoot()` **不读 `DSH_HOME`**，别搞混这两个。
+- insert:
+    - id: serendipity
+      name: 'file:///E:/deepseekagent/dsh-creativity/lib/index.js'

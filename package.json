@@ -1,0 +1,68 @@
+{
+  "name": "@1603801678/dsh-serendipity",
+  "description": "Serendipity (缪斯) for DeepSeek Harness — a cross-domain 'structural material' corpus the agent draws from on demand: read a random mechanism / technique / counterintuitive finding from a far field, map its structure onto the work at hand, then record whether the analogy paid off. Tools: serendipity_draw, serendipity_note, serendipity_learn, serendipity_stats.",
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-slots"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-host-webserver": "^0.1.1-rc.2 || ^0.2.0-rc.2",
+    "@deepseek-ai/dsh-settings": "^0.1.1-rc.2 || ^0.2.0-rc.2",
+    "@deepseek-ai/dsh-system-prompt": "^0.1.1-rc.2 || ^0.2.0-rc.2",
+    "@deepseek-ai/dsh-tools": "^0.1.1-rc.2 || ^0.2.0-rc.2",
+    "schemastery": "^3.18.0"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-host-webserver": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-settings": {
+      "optional": true
+    }
+  },
+  "files": [
+    "lib/**/*.js",
+    "data",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "creativity",
+    "serendipity",
+    "analogy",
+    "ideation"
+  ],
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "lint:corpus": "node tools/lint-corpus.mjs",
+    "build:corpus": "node tools/build-corpus.mjs",
+    "preview": "node tools/preview.mjs --count 5"
+  }
+}

@@ -1,0 +1,11 @@
+# dsh-serendipity bundle patch: inserts the plugin row into the profile roster.
+# Applied as a profile bundle layer (the `dsh.bundle.patch` manifest field) over
+# dsh-base; activate with
+#   dsh plugin --profile web add link:E:/deepseekagent/dsh-creativity
+#
+# The row is a bare plugin by package name: the package's `exports["."]` runs in
+# the host process (corpus, draw engine, per-project records, agent tools,
+# /api/dsh-serendipity routes).
+- insert:
+    - id: serendipity
+      name: '@1603801678/dsh-serendipity'

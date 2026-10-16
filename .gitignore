@@ -1,0 +1,33 @@
+# 给 dsh 的忽略规则
+
+# 依赖（本仓库的 node_modules 只是指向 dsh SDK 的 junction，不是源码）
+node_modules/
+
+# 演示产物（演示文稿三件套、逐页渲染、图片素材）——只在本机保存，不进版本库
+演示/
+
+# 会话导出 zip（与 _sessionlog/ 内容重复的派生产物）
+dsh-session-session-*.zip
+
+# 运行时产物
+*.bak
+*.bak-*
+*.tmp
+*.log
+
+# 编辑器 / 系统
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 隔离测试用的临时 HOME（见 tools/headless-test.patch.yml）。
+# 为了跑真实 agent 会话，这里会放一份 .credentials.yaml 的副本 ——
+# **绝不能提交**，所以整个目录忽略。
+.tmp-test-home/
+
+# 会话分析的派生产物：由 tools/session-report.mjs 重新生成即可，
+# 与仓库根目录的 session zip 重复，不必进版本库（原始转录仍保留在 _sessionlog/ 下）。
+_sessionlog/*/session.jsonl
+_sessionlog/**/*.txt
